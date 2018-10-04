@@ -2,22 +2,18 @@ from os import remove, listdir
 from os.path import exists
 import numpy as np
 import h5py
-import base64
 import cv2
 
 file_paths = dict()
 num_of_samp = 0
 N = 2
 
+# Create dict of filepaths and calculate number of samples
 for folder in sorted(listdir('./data')):
     file_paths[folder] = []
     for file_name in sorted(listdir('./data/' + folder)):
         file_paths[folder].append(file_name)
-
-# Count all samples
-for key in file_paths:
-    num_of_samp += len(file_paths[key])
-num_of_samp -= N*len(file_paths)
+    num_of_samp += len(file_paths[folder]) - N
 
 # Create HDF5 file for dataset
 if exists('dataset.hdf5'):
@@ -40,28 +36,20 @@ for key in file_paths:
         fin1 = open(input_1_path, 'rb')
         fin2 = open(input_2_path, 'rb')
         fout = open(output_path, 'rb')
-        fin1_b64 = np.fromstring(base64.b64encode(fin1.read()).decode('utf-8'), np.uint8)
-        fin2_b64 = np.fromstring(base64.b64encode(fin2.read()).decode('utf-8'), np.uint8)
-        fout_b64 = np.fromstring(base64.b64encode(fout.read()).decode('utf-8'), np.uint8)
+        fin1_b64 = np.fromstring(fin1.read(), np.uint8)
+        fin2_b64 = np.fromstring(fin2.read(), np.uint8)
+        fout_b64 = np.fromstring(fout.read(), np.uint8)
         fin_b64  = (fin1_b64 , fin2_b64)
         input_dataset[samp_idx] = fin_b64
         output_dataset[samp_idx]= fout_b64
         
-        img = base64.b64decode(input_dataset[samp_idx][0])
-        nparr = np.fromstring(img, np.uint8)
-        img_np = cv2.imdecode(nparr, 1)
-        cv2.imshow('a', img_np)
-        cv2.waitKey(0)
+        # img = input_dataset[samp_idx][0]
+        # nparr = np.fromstring(img, np.uint8)
+        # img_np = cv2.imdecode(nparr, 1)
+        # cv2.imshow('a', img_np)
+        # cv2.waitKey(0)
         samp_idx += 1
 
 
 # hf = h5py.File('foo.hdf5', 'r')
 # data = hf.get('binary_data').value # `data` is now an ndarray.
-
-
-
-img = base64.b64decode(input_dataset[0][0])
-nparr = np.fromstring(img, np.uint8)
-img_np = cv2.imdecode(nparr, 1)
-cv2.imshow('a', img_np)
-cv2.waitKey(0)
