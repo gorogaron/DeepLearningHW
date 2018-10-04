@@ -1,54 +1,67 @@
-from os import listdir
-from os import walk
-from os.path import isfile, join, exists
-import matplotlib.pylab as plt 
-import h5py
+from os import remove, listdir
+from os.path import exists
 import numpy as np
+import h5py
+import base64
 import cv2
 
-inputData = []
-outputData = []
-triplet = []
+file_paths = dict()
+num_of_samp = 0
+N = 2
+
+for folder in sorted(listdir('./data')):
+    file_paths[folder] = []
+    for file_name in sorted(listdir('./data/' + folder)):
+        file_paths[folder].append(file_name)
+
+# Count all samples
+for key in file_paths:
+    num_of_samp += len(file_paths[key])
+num_of_samp -= N*len(file_paths)
+
+# Create HDF5 file for dataset
+if exists('dataset.hdf5'):
+    print('Dataset deleted.')
+    remove('dataset.hdf5')
+
+f = h5py.File('dataset.hdf5')
+dt = h5py.special_dtype(vlen=np.dtype('uint8'))
+input_dataset = f.create_dataset('input', (num_of_samp,2,), dtype=dt)
+output_dataset = f.create_dataset('output', (num_of_samp,), dtype=dt)
+
+# Read images
+samp_idx = 0
+for key in file_paths:
+    print('Current folder: ' + key + '...')
+    for i in range(len(file_paths[key]) - N):
+        input_1_path = 'data/' + key + '/' + file_paths[key][i]
+        input_2_path = 'data/' + key + '/' + file_paths[key][i+2]
+        output_path  = 'data/' + key + '/' + file_paths[key][i+1]
+        fin1 = open(input_1_path, 'rb')
+        fin2 = open(input_2_path, 'rb')
+        fout = open(output_path, 'rb')
+        fin1_b64 = np.fromstring(base64.b64encode(fin1.read()).decode('utf-8'), np.uint8)
+        fin2_b64 = np.fromstring(base64.b64encode(fin2.read()).decode('utf-8'), np.uint8)
+        fout_b64 = np.fromstring(base64.b64encode(fout.read()).decode('utf-8'), np.uint8)
+        fin_b64  = (fin1_b64 , fin2_b64)
+        input_dataset[samp_idx] = fin_b64
+        output_dataset[samp_idx]= fout_b64
+        
+        img = base64.b64decode(input_dataset[samp_idx][0])
+        nparr = np.fromstring(img, np.uint8)
+        img_np = cv2.imdecode(nparr, 1)
+        cv2.imshow('a', img_np)
+        cv2.waitKey(0)
+        samp_idx += 1
 
 
-for folderName in sorted(listdir('./data')):
-    print(folderName)
-    count = 0
-    inputData = []
-    outputData = []
-
-    for fileName in sorted(listdir('./data/' + folderName)):
-
-        img = cv2.imread('./data/' + folderName + '/' + fileName)
-        img = cv2.resize(img, (640, 480))
-        triplet.append(img)
-        count += 1
-        if (count == 3):
-            inputDataFrame = np.empty([2,480,640,3])
-            inputDataFrame[0] = triplet[0]
-            inputDataFrame[1] = triplet[2]
-
-            inputData.append(inputDataFrame)
-            outputData.append(triplet[1])
-            
-            count = 0
-            triplet = []
-
-    if exists('./data.h5'):
-        with h5py.File('data.h5','a') as hdf:
-            hdf['input'].resize(hdf['input'].shape[0] + np.asarray(inputData).shape[0], axis=0)
-            hdf['input'][hdf['input'].shape[0]- np.asarray(inputData).shape[0]:] = inputData
-
-            hdf['output'].resize(hdf['output'].shape[0] + np.asarray(inputData).shape[0], axis=0)
-            hdf['output'][hdf['output'].shape[0]- np.asarray(inputData).shape[0]:] = outputData
-
-            print('Input dataset shape:  ' + str(hdf['input']))
-            print('Input dataset shape:  ' + str(hdf['output']))
-    else:
-        with h5py.File('data.h5','w') as hdf:
-            dset_in = hdf.create_dataset('input', data=inputData, maxshape=(None, 2, 480, 854, 3))
-            dset_out = hdf.create_dataset('output', data = outputData, maxshape=(None, 480, 854, 3))
-            
+# hf = h5py.File('foo.hdf5', 'r')
+# data = hf.get('binary_data').value # `data` is now an ndarray.
 
 
 
+img = base64.b64decode(input_dataset[0][0])
+nparr = np.fromstring(img, np.uint8)
+img_np = cv2.imdecode(nparr, 1)
+cv2.imshow('a', img_np)
+cv2.waitKey(0)

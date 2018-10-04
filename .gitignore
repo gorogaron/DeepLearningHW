@@ -1,2 +1,2 @@
-/data
-/data.h5
+data
+*.hdf5
