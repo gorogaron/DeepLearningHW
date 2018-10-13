@@ -1,3 +1,6 @@
+*.ipynb
+data_resized
 .vscode
+.*
 data
 *.hdf5
