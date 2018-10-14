@@ -57,7 +57,7 @@ for folder in sorted(listdir(data_dir)):
 
 if not resize:
     data_dir_resized = data_dir
-
+    
 # Read image paths into a list
 samp_idx = 0
 samp_list= []

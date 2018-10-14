@@ -37,7 +37,6 @@ def valid_generator():
                         Y_train = image3
                         yield np.array(X_train), np.array(Y_train)
 
-
 if __name__ == '__main__':
         hf = h5py.File(hdf5_file,'r')
 
@@ -48,7 +47,7 @@ if __name__ == '__main__':
         ## Data visualization via VALIDATION generator!
         G = valid_generator()
         for _ in G:
-                x, y = G.next()
+                x, y = next(G)
                 cv2.imshow("input1", x[0])
                 cv2.imshow("input2", x[1])
                 cv2.imshow("output", y)
