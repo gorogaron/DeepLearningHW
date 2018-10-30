@@ -1,6 +1,7 @@
-*.ipynb
+data
 data_resized
+*.ipynb
 .vscode
 .*
-data
 *.hdf5
+*.pyc
