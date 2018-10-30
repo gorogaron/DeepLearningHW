@@ -11,7 +11,7 @@ data_dir_resized = './data_resized'
 dataset_filename = 'dataset.hdf5'
 
 resize = True
-img_new_size = (128,128)
+img_new_size = (128,384)
 
 valid_split = 0.20
 test_split  = 0.10
