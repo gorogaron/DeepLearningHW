@@ -14,42 +14,26 @@ def train_generator(batch_size = 1):
         hf = h5py.File(hdf5_file, 'r')
         input_data  = hf.get('x_train')
         output_data = hf.get('y_train')
-        
         while True:
                 X_train = []
                 Y_train = []
                 for i in range(input_data.shape[0]):
                         image1, image2, image3 = get_img_nparr(input_data[i][0],input_data[i][1], output_data[i])
-                        X_train = (image1, image2)
-                        Y_train = image3
-                        yield np.array(X_train), np.array(Y_train)
+                        X_train = np.transpose(np.concatenate((image1, image2), axis=2), (2,1,0))[np.newaxis, ...]
+                        Y_train = np.transpose(image3, (2,1,0))[np.newaxis, ...]
+                        yield np.array(X_train).astype('float32')/255. , np.array(Y_train).astype('float32')/255.
 
 def valid_generator():
         hf = h5py.File(hdf5_file, 'r')
         input_data  = hf.get('x_valid')
         output_data = hf.get('y_valid')
         while True:
-                X_train = 0
-                Y_train = 0
+                X_train = []
+                Y_train = []
                 for i in range(input_data.shape[0]):
                         image1, image2, image3 = get_img_nparr(input_data[i][0],input_data[i][1], output_data[i])
-                        X_train = (image1, image2)
-                        Y_train = image3
-                        yield np.array(X_train), np.array(Y_train)
+                        X_train = np.transpose(np.concatenate((image1, image2), axis=2), (2,1,0))[np.newaxis, ...]
+                        Y_train = np.transpose(image3, (2,1,0))[np.newaxis, ...]
+                        yield np.array(X_train).astype('float32')/255. , np.array(Y_train).astype('float32')/255.
 
-if __name__ == '__main__':
-        hf = h5py.File(hdf5_file,'r')
-
-        ## Test database
-        x_test = hf.get('x_test')
-        y_test = hf.get('y_test')
-        
-        ## Data visualization via VALIDATION generator!
-        G = valid_generator()
-        for _ in G:
-                x, y = next(G)
-                cv2.imshow("input1", x[0])
-                cv2.imshow("input2", x[1])
-                cv2.imshow("output", y)
-                cv2.waitKey(0)
         
