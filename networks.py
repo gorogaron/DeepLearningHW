@@ -1,7 +1,20 @@
+# -*- coding: utf-8 -*-
+# Model architectures
 from keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, BatchNormalization, concatenate
 from keras.models import Model
 
 def UNET(input_shape):
+    '''
+    Modified U-net architecture with some extra blocks (+Conv and BatchNorm layer)
+
+    # Arguments
+    input shape: Input size (a tuple) of the network. Format: (2*channels, height, width)
+    because it will get 2 images.
+
+    # Output
+    model: The created U-net network with output_size = (channels, height, width)
+    '''
+
     inputs = Input(input_shape)
     conv1 = Conv2D(32, (3, 3), activation='relu', padding='same')(inputs)
     bn1 = BatchNormalization()(conv1)
