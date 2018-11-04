@@ -38,4 +38,11 @@ After the preprocessing is done just run:
 ```
 python train.py
 ```
-In the file you can change the number of epochs (*NB_EPOCHS*) and the batch size (*BATCH_SIZE*).
+In the file you can change the number of epochs (*NB_EPOCHS*) and the batch size (*BATCH_SIZE*) which is 1 by default.
+
+### 3. Step - Testing
+After the training you can test your model via videos. Just download an *.mp4* video to the root directory and in the *test.py* you should add the filename in the *main()* function to the *vid_fn* variable. Make sure you add your *.hdf5* file path of your model correctly in the *.load_weights(...)* line.
+```
+python test.py
+```
+After testing is done, you can look at the predicted videos in the *results/* directory.
