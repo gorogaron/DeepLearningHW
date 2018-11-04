@@ -4,6 +4,7 @@
 The following scripts were created for the Deep Learning 2018 course from BUTE by József Kenderák and Árom Görög.
 
 ## Prerequisites
+Anaconda 5.3 contains a lot of libraries but we need the followings:
 ```
 conda install -c conda-forge keras
 conda install -c conda-forge tensorflow
@@ -26,4 +27,8 @@ test.py           - After training we can test the network with videos
 
 ## HowTo
 ### 1. Step - Preprocessing
-
+Copy the previously shared dataset to the root directory and just run:
+```
+python createDataset.py
+```
+In the *.py* file you can change the resize resolution of the images by *img_new_size = (384,128)*. The image resolution by default is 384x128, it is important due to input size of the neural network. After the preprocess is done, you can see the *dataset.hdf5* file in the root directory.
