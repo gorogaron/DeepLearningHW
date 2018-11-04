@@ -32,3 +32,10 @@ Copy the previously shared dataset to the root directory and just run:
 python createDataset.py
 ```
 In the *.py* file you can change the resize resolution of the images by *img_new_size = (384,128)*. The image resolution by default is 384x128, it is important due to input size of the neural network. After the preprocess is done, you can see the *dataset.hdf5* file in the root directory.
+
+### 2. Step - Training
+After the preprocessing is done just run:
+```
+python train.py
+```
+In the file you can change the number of epochs (*NB_EPOCHS*) and the batch size (*BATCH_SIZE*).
