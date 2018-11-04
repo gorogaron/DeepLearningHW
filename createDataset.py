@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from os import remove, listdir, makedirs
 from os.path import exists, isdir, join
 from random import shuffle
