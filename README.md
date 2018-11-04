@@ -46,3 +46,10 @@ After the training you can test your model via videos. Just download an *.mp4* v
 python test.py
 ```
 After testing is done, you can look at the predicted videos in the *results/* directory.
+
+## TODO
+ - Making the usage more comfortable by using argparse
+ - Making better dir and file structure
+ - Saving the history into a file after training
+ - Testing with pictures, not only with videos
+ - Implementing our custom pooling layer
