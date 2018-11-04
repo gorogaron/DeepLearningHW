@@ -1,7 +1,10 @@
 data
 data_resized
+results/*
+model_weights/*
 *.ipynb
 .vscode
 .*
 *.hdf5
 *.pyc
+*.mp4
