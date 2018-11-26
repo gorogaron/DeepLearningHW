@@ -51,7 +51,7 @@ After testing is done, you can look at the predicted videos in the *results/* di
 ## TODO
  - [x] Make the usage more comfortable
  - [x] Make better dir and file structure
- - [ ] Save the history into a file after training
+ - [x] Save the history into a file after training
  - [ ] Test with pictures, not only with videos
  - [ ] Implement new activation layer
  - [ ] Implement custom pooling layer
