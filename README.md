@@ -18,6 +18,7 @@ core/createDataset.py  - Put the whole dataset into the HDF5 file structuring by
 core/imageGenerator.py - Train and Validation generators for *.fit_generator()
 core/losses.py         - Defined some new Loss functions
 core/networks.py       - Currently only contains U-net architecture
+core/activation.py     - Defined custom activation layer SWISH
 data/                  - The whole RAW dataset
 model_weights/         - Wieghts of the best model
 results/               - Save folder of the videos after testing
@@ -53,5 +54,5 @@ After testing is done, you can look at the predicted videos in the *results/* di
  - [x] Make better dir and file structure
  - [x] Save the history into a file after training
  - [ ] Test with pictures, not only with videos
- - [ ] Implement new activation layer
+ - [x] Implement new activation layer
  - [ ] Implement custom pooling layer
