@@ -9,6 +9,6 @@
 	"model": {
 		"loss": "soft_dice",
         "save_dir": "model_weights",
-        "file_name": "model_weights.hdf5"
+        "file_name": "model_weights"
     }
 }

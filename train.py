@@ -2,6 +2,7 @@
 import os.path
 import h5py
 import json
+import pickle
 
 import keras.backend as K
 from keras.optimizers import SGD, adam
@@ -21,8 +22,14 @@ def get_hdf5(filename):
         data_processor()
     return h5py.File(hdf5_file, 'r')
 
-def save_history():
-    pass
+def save_history(obj, name):
+    try:
+        filename = open(name + ".pickle","wb")
+        pickle.dump(obj, filename)
+        filename.close()
+        return(True)
+    except:
+        return(False)
 
 def main():
 
@@ -56,7 +63,7 @@ def main():
     # We only save the best model and we reduce learning rate when the val_loss is not getting
     # better under 10 epoch. It is for SGD.
     callbacks = [
-            ModelCheckpoint(filepath="./" + configs['model']['save_dir'] + configs['model']['file_name'], monitor='val_loss', save_best_only=True, verbose=1),
+            ModelCheckpoint(filepath="./" + configs['model']['save_dir'] + configs['model']['file_name'] + ".hdf5", monitor='val_loss', save_best_only=True, verbose=1),
             ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=10, verbose=1)
     ]
 
@@ -70,8 +77,8 @@ def main():
         callbacks=callbacks
     )
 
-    ## TODO: Save the history, make some test immediately
-    save_history()
+    ## Save the history
+    save_history(hist, configs['model']['save_dir'] + "/" + configs['model']['file_name'])
 
 if __name__ == '__main__':
     main()
