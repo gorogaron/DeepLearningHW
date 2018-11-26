@@ -48,8 +48,9 @@ python test.py
 After testing is done, you can look at the predicted videos in the *results/* directory.
 
 ## TODO
- - Making the usage more comfortable by using argparse
- - Making better dir and file structure
- - Saving the history into a file after training
- - Testing with pictures, not only with videos
- - Implementing our custom pooling layer
+ - [ ] Make the usage more comfortable
+ - [ ] Make better dir and file structure
+ - [ ] Save the history into a file after training
+ - [ ] Test with pictures, not only with videos
+ - [ ] Implement new activation layer
+ - [ ] Implement custom pooling layer
