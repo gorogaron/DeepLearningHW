@@ -10,9 +10,10 @@ from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 K.set_image_dim_ordering("th")
 
 from core.createDataset import data_processor
+from core.imageGenerator import train_generator, valid_generator
 from core.networks import UNET
 from core.losses import charbonnier, soft_dice
-from core.imageGenerator import train_generator, valid_generator
+
 
 def get_hdf5(filename):
     # Reading dataset
@@ -47,7 +48,7 @@ def main():
     batch_size= configs['training']['batch_size']
 
     # Currenty U-net is the only implemented network. By default the size of images is 384x128.
-    model = UNET((6,128,384))
+    model = UNET((6,128,384), configs['layer']['activation'])
 
     # We use ADAM optimizer and custom loss functions as 'charbonnier' and 'soft_dice'
     optimizer = adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08)

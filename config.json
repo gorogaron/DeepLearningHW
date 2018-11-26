@@ -5,7 +5,10 @@
 	"training": {
 		"epochs": 100,
 		"batch_size": 1
-	},
+    },
+    "layer": {
+        "activation": "swish"
+    },
 	"model": {
 		"loss": "soft_dice",
         "save_dir": "model_weights",
