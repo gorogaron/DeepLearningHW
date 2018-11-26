@@ -50,6 +50,7 @@ python test.py
 After testing is done, you can look at the predicted videos in the *results/* directory.
 
 ## TODO
+ - [x] Train on batch
  - [x] Make the usage more comfortable
  - [x] Make better dir and file structure
  - [x] Save the history into a file after training
