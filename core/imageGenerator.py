@@ -5,10 +5,6 @@ import numpy as np
 import h5py
 import cv2
 
-# Reading dataset
-hdf5_file = 'dataset.hdf5'
-hf = h5py.File(hdf5_file, 'r')
-
 def get_img_nparr(img1, img2, img3):
         '''
         Convert images from string to numpy array.
@@ -26,20 +22,19 @@ def get_img_nparr(img1, img2, img3):
 
         return image1, image2, image3
 
-def train_generator(batch_size = 1):
+def train_generator(input_data, output_data, batch_size = 1):
         '''
         Train generator. Assume that the yielded images format -> 
         (batch_size, channels, height, width)
 
         # Arguments
+        input_data: Input frames
+        output_data:Output frames
         batch_size: The size of one batch to yield from the generator
 
         # Output
         X_train, Y_train: Training batches by the defined format above
         '''
-        
-        input_data  = hf.get('x_train')
-        output_data = hf.get('y_train')
 
         while True:
 
@@ -54,21 +49,19 @@ def train_generator(batch_size = 1):
 
                         yield np.array(X_train).astype('float32')/255. , np.array(Y_train).astype('float32')/255.
 
-def valid_generator(batch_size = 1):
+def valid_generator(input_data, output_data, batch_size = 1):
         '''
         Validation generator. Assume that the yielded images format -> 
         (batch_size, channels, height, width)
 
         # Arguments
+        input_data: Input frames
+        output_data:Output frames
         batch_size: The size of one batch to yield from the generator
 
         # Output
         X_valid, Y_valid: Training batches by the defined format above
         '''
-
-        input_data  = hf.get('x_valid')
-        output_data = hf.get('y_valid')
-
         while True:
 
                 X_valid = []
