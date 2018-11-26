@@ -23,6 +23,7 @@ model_weights/         - Wieghts of the best model
 results/               - Save folder of the videos after testing
 train.py               - Train the model after preprocessing
 test.py                - After training we can test the network with videos
+config.json            - Contain configuration of the model and training parameters
 ```
 
 ## HowTo
@@ -48,7 +49,7 @@ python test.py
 After testing is done, you can look at the predicted videos in the *results/* directory.
 
 ## TODO
- - [ ] Make the usage more comfortable
+ - [x] Make the usage more comfortable
  - [x] Make better dir and file structure
  - [ ] Save the history into a file after training
  - [ ] Test with pictures, not only with videos
