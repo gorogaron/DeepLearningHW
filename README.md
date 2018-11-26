@@ -14,22 +14,22 @@ conda install -c anaconda scipy
 
 ## Directory structure and files
 ```
-data/             - The whole RAW dataset in subfolders 
-model_weights/    - Wieghts of the best model
-results/          - Save folder of the videos after testing
-createDataset.py  - Put the whole dataset into the HDF5 file structuring by train, valid and test sets
-imageGenerator.py - Train and Validation generators for *.fit_generator()
-losses.py         - Defined some new Loss functions
-networks.py       - Currently only contains U-net architecture
-train.py          - Train the model after preprocessing
-test.py           - After training we can test the network with videos
+core/createDataset.py  - Put the whole dataset into the HDF5 file structuring by train, valid and test sets
+core/imageGenerator.py - Train and Validation generators for *.fit_generator()
+core/losses.py         - Defined some new Loss functions
+core/networks.py       - Currently only contains U-net architecture
+data/                  - The whole RAW dataset
+model_weights/         - Wieghts of the best model
+results/               - Save folder of the videos after testing
+train.py               - Train the model after preprocessing
+test.py                - After training we can test the network with videos
 ```
 
 ## HowTo
 ### 1. Step - Preprocessing
 Copy the previously shared dataset to the root directory and just run:
 ```
-python createDataset.py
+data_processor(row,col) // now this function will do it all, you do not have to run createDataset.py directly
 ```
 In the *.py* file you can change the resize resolution of the images by *img_new_size = (384,128)*. The image resolution by default is 384x128, it is important due to input size of the neural network. After the preprocess is done, you can see the *dataset.hdf5* file in the root directory.
 
@@ -38,7 +38,7 @@ After the preprocessing is done just run:
 ```
 python train.py
 ```
-In the file you can change the number of epochs (*NB_EPOCHS*) and the batch size (*BATCH_SIZE*) which is 1 by default.
+In the file you can change the number of epochs (*nb_epochs*) and the batch size (*batch_size*) which is 1 by default.
 
 ### 3. Step - Testing
 After the training you can test your model via videos. Just download an *.mp4* video to the root directory and in the *test.py* you should add the filename in the *main()* function to the *vid_fn* variable. Make sure you add your *.hdf5* file path of your model correctly in the *.load_weights(...)* line.
@@ -49,7 +49,7 @@ After testing is done, you can look at the predicted videos in the *results/* di
 
 ## TODO
  - [ ] Make the usage more comfortable
- - [ ] Make better dir and file structure
+ - [x] Make better dir and file structure
  - [ ] Save the history into a file after training
  - [ ] Test with pictures, not only with videos
  - [ ] Implement new activation layer
