@@ -2,8 +2,7 @@
 # Model architectures
 from keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, BatchNormalization, concatenate, Activation
 from keras.models import Model
-from keras.utils.generic_utils import get_custom_objects
-from core.activation import swish
+from core.activation import Swish
 
 def UNET(input_shape, activation = 'relu'):
     '''
@@ -16,8 +15,6 @@ def UNET(input_shape, activation = 'relu'):
     # Output
     model: The created U-net network with output_size = (channels, height, width)
     '''
-    if activation == "swish":
-        get_custom_objects().update({'swish': Activation(swish)})
 
     inputs = Input(input_shape)
     conv1 = Conv2D(32, (3, 3), activation=activation, padding='same')(inputs)

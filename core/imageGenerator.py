@@ -35,19 +35,21 @@ def train_generator(input_data, output_data, batch_size = 1):
         # Output
         X_train, Y_train: Training batches by the defined format above
         '''
+        train_size = input_data.shape[0] - (input_data.shape[0] % batch_size)
 
         while True:
 
-                X_train = []
-                Y_train = []
+                X = np.zeros(shape=(batch_size, 128, 384, 6), dtype="uint8")
+                Y = np.zeros(shape=(batch_size, 128, 384, 3), dtype="uint8")
+                i = 0
+                while i < train_size:
+                        for batch_i in range(batch_size):
 
-                for i in range(input_data.shape[0]):
+                                X[batch_i, :, :, :3], X[batch_i, :, :, 3:], Y[batch_i]  = get_img_nparr(input_data[i][0],input_data[i][1], output_data[i])
 
-                        image1, image2, image3 = get_img_nparr(input_data[i][0],input_data[i][1], output_data[i])
-                        X_train = np.transpose(np.concatenate((image1, image2), axis=2), (2,0,1))[np.newaxis, ...]
-                        Y_train = np.transpose(image3, (2,0,1))[np.newaxis, ...]
+                                i = i+1
 
-                        yield np.array(X_train).astype('float32')/255. , np.array(Y_train).astype('float32')/255.
+                        yield np.transpose(X, (0, 3, 1, 2)).astype("float32") / 255., np.transpose(Y, (0, 3, 1, 2)).astype("float32") / 255.
 
 def valid_generator(input_data, output_data, batch_size = 1):
         '''
@@ -62,17 +64,19 @@ def valid_generator(input_data, output_data, batch_size = 1):
         # Output
         X_valid, Y_valid: Training batches by the defined format above
         '''
+        valid_size = input_data.shape[0] - (input_data.shape[0] % batch_size)
         while True:
 
-                X_valid = []
-                Y_valid = []
+                X = np.zeros(shape=(batch_size, 128, 384, 6), dtype="uint8")
+                Y = np.zeros(shape=(batch_size, 128, 384, 3), dtype="uint8")
+                i = 0
+                while i < valid_size:
+                        for batch_i in range(batch_size):
 
-                for i in range(input_data.shape[0]):
+                                 X[batch_i, :, :, :3], X[batch_i, :, :, 3:], Y[batch_i]  = get_img_nparr(input_data[i][0],input_data[i][1], output_data[i])
+                                 
+                                 i = i+1
 
-                        image1, image2, image3 = get_img_nparr(input_data[i][0],input_data[i][1], output_data[i])
-                        X_valid = np.transpose(np.concatenate((image1, image2), axis=2), (2,0,1))[np.newaxis, ...]
-                        Y_valid = np.transpose(image3, (2,0,1))[np.newaxis, ...]
-
-                        yield np.array(X_train).astype('float32')/255. , np.array(Y_train).astype('float32')/255.
+                        yield np.transpose(X, (0, 3, 1, 2)).astype("float32") / 255., np.transpose(Y, (0, 3, 1, 2)).astype("float32") / 255.
 
         

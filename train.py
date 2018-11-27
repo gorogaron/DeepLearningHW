@@ -64,7 +64,7 @@ def main():
     # We only save the best model and we reduce learning rate when the val_loss is not getting
     # better under 10 epoch. It is for SGD.
     callbacks = [
-            ModelCheckpoint(filepath="./" + configs['model']['save_dir'] + configs['model']['file_name'] + ".hdf5", monitor='val_loss', save_best_only=True, verbose=1),
+            ModelCheckpoint(filepath="./" + configs['model']['save_dir'] + "/" + configs['model']['file_name'] + ".hdf5", monitor='val_loss', save_best_only=True, verbose=1),
             ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=10, verbose=1)
     ]
 
@@ -74,12 +74,12 @@ def main():
         steps_per_epoch = x_train.shape[0]/batch_size,
         validation_data=valid_generator(x_valid, y_valid, batch_size),
         validation_steps= x_valid.shape[0]/batch_size,
-        epochs = nb_epochs,
+        epochs = 1,
         callbacks=callbacks
     )
 
     ## Save the history
-    save_history(hist, configs['model']['save_dir'] + "/" + configs['model']['file_name'])
+    save_history(hist, "./" + configs['model']['save_dir'] + "/" +configs['model']['file_name'])
 
 if __name__ == '__main__':
     main()
