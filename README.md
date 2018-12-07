@@ -1,7 +1,7 @@
 # Deep Learning with Python
 ### Project: Video Frame Interpolation with Deep Convolutional Neural Network
 
-The following scripts were created for the Deep Learning 2018 course from BUTE by József Kenderák and Árom Görög.
+The following scripts were created for the Deep Learning 2018 course from BUTE by József Kenderák, Árom Görög and Dániel Határ.
 
 ## Prerequisites
 Anaconda 5.3 contains a lot of libraries but we need the followings:
